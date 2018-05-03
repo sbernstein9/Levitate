@@ -46,7 +46,7 @@ public class LevelGen : MonoBehaviour {
 
 		if (Vector3.Distance(player.transform.position,targetForGen) < 70)
 		{
-			Debug.Log ("GENTARGET! Player:" + player.transform.position + "Target: " + targetForGen);
+			//Debug.Log ("GENTARGET! Player:" + player.transform.position + "Target: " + targetForGen);
 			GenerateCubes ();
 		}
 

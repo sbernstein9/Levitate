@@ -104,7 +104,7 @@ public class PlayerSc : MonoBehaviour {
 		else if (rayHitBox == true)
 		{
 			raycastHitObject.GetComponent<GlowObject> ().OnRaycastExit();
-			Debug.Log ("not casting,notnull");
+			//Debug.Log ("not casting,notnull");
 			//raycastHitObject.GetComponent<Renderer>().material.shader = Shader.Find("Standard");
 			//raycastHitObject = null;
 			rayHitBox = false;
@@ -157,7 +157,7 @@ public class PlayerSc : MonoBehaviour {
 
 	void OnCollisionEnter(Collision col)
 	{
-		Debug.Log ("Collide!");
+		//Debug.Log ("Collide!");
 		if (col.gameObject.tag == "Obstacle")
 		{
 			Debug.Log ("Hit obstacle!");
@@ -166,7 +166,7 @@ public class PlayerSc : MonoBehaviour {
 
 		if (col.gameObject ==  Vortex)
 		{
-			Debug.Log ("Collide!");
+			//Debug.Log ("Collide!");
 			SceneManager.LoadScene ("Death");
 		}
 	}
@@ -187,17 +187,25 @@ public class PlayerSc : MonoBehaviour {
 
 		if (col.name == "RetryTrigger")
 		{
-			Debug.Log ("RetryTrigger!");
+			//Debug.Log ("RetryTrigger!");
 			SceneManager.LoadScene ("test");
 
 		}
 		else if (col.name == "QuitTrigger")
 		{
-			Debug.Log ("QuitTrigger!");
-			Application.Quit();
+			//Debug.Log ("QuitTrigger!");
+			Quit ();
 		}
 	}
 
+	public void Quit()
+	{
+		#if UNITY_EDITOR
+		UnityEditor.EditorApplication.isPlaying = false;
+		#else
+		Application.Quit()
+		#endif
+	}
 	public IEnumerator hitObstacle()
 	{
 		float duration = 1;

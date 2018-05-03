@@ -58,7 +58,7 @@ public class WalkRight : IStateMachine
 
 	public void Enter()
 	{
-		Debug.Log("Walking right!");
+		//Debug.Log("Walking right!");
 		mgr.currentStateName = NpcStateMachineMgr.NPCStates.WalkRight;
 
 	}
@@ -71,7 +71,7 @@ public class WalkRight : IStateMachine
 
 	public void Exit()
 	{
-		Debug.Log("Ok, I'll stop walking right");
+	//	Debug.Log("Ok, I'll stop walking right");
 	}
 }
 
@@ -90,7 +90,7 @@ public class WalkLeft : IStateMachine
 
 	public void Enter()
 	{
-		Debug.Log("Walking left!");
+		//Debug.Log("Walking left!");
 		mgr.currentStateName = NpcStateMachineMgr.NPCStates.WalkLeft;
 	}
 
@@ -101,6 +101,6 @@ public class WalkLeft : IStateMachine
 
 	public void Exit()
 	{
-		Debug.Log("Ok, I'll stop walking left");
+		//Debug.Log("Ok, I'll stop walking left");
 	}
 }

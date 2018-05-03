@@ -23,7 +23,8 @@ public class VortexSc : MonoBehaviour {
 	{
 		if (col.gameObject.tag != "Player")
 		{
-			Destroy (col.gameObject);
+			//col.gameObject.SetActive(false);
+			Destroy(col.gameObject);
 		}
 	}
 }
