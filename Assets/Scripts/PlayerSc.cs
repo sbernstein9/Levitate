@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerSc : MonoBehaviour {
 
@@ -22,9 +23,16 @@ public class PlayerSc : MonoBehaviour {
 	Ray moveRay;
 	public int rayDist = 100;
 	GameObject raycastHitObject;
-	public RawImage rearCamImg;
 
+
+	public RawImage rearCamImg;
+	Color rearCamTarget;
+	Color rearCamStart;
+	private float rearCamStartTime;
+	private float rearCamJourneyLength;
 	public GameObject Vortex;
+
+	bool colorLerp = false;
 
 	MouseLook mainCamLook;
 	public Shader highlightShader;
@@ -37,6 +45,8 @@ public class PlayerSc : MonoBehaviour {
 		//step = Time.deltaTime * 10;
 		//step = Mathf.SmoothStep(0,1,);
 		isMoving = false;
+		rearCamStart = new Color (255, 255, 255, 0);
+		rearCamTarget = new Color (255, 255, 255, 0.75f);
 	}
 	
 	// Update is called once per frame
@@ -56,7 +66,6 @@ public class PlayerSc : MonoBehaviour {
 				rayHitBox = true;
 				raycastHitObject = moveHit.transform.gameObject;
 
-				//raycastHitObject.GetComponent<Renderer>().material.shader = highlightShader;
 
 				raycastHitObject.GetComponent<GlowObject> ().OnRaycastEnter ();
 
@@ -91,7 +100,6 @@ public class PlayerSc : MonoBehaviour {
 		}
 		else
 		{
-			//Debug.Log ("nothit");
 			if (raycastHitObject != null)
 			{
 				raycastHitObject.GetComponent<GlowObject> ().OnRaycastExit ();
@@ -99,14 +107,6 @@ public class PlayerSc : MonoBehaviour {
 			rayHitBox = false;
 		}
 			
-		//Debug.Log ("Raycastobj: " + raycastHitObject);
-		//Debug.Log (rayHitBox);
-
-		/*else if (Input.GetKeyUp(KeyCode.Space))
-		{
-			isMoving = false;
-		}*/
-
 		if (isMoving)
 		{
 			//float fracComplete = (Time.time - startTime) / journeyTime;
@@ -130,6 +130,13 @@ public class PlayerSc : MonoBehaviour {
 		{
 			//transform.position += new Vector3 (transform.position.x * Input.GetAxis ("Horizontal") * 0.2f, transform.position.y * Input.GetAxis("Vertical") * 0.2f, 0);
 		}
+
+		if (colorLerp)
+		{
+			float distCovered = Time.time - rearCamStartTime;
+			float fracJourney = distCovered / 2;
+			rearCamImg.color = Color.Lerp (rearCamStart, rearCamTarget, fracJourney);
+		}
 	}
 
 	void Move()
@@ -145,23 +152,37 @@ public class PlayerSc : MonoBehaviour {
 			Debug.Log ("Hit obstacle!");
 			StartCoroutine (hitObstacle());
 		}
+
+		if (col.gameObject ==  Vortex)
+		{
+			Debug.Log ("Collide!");
+
+		}
 	}
 
 	void OnTriggerEnter(Collider col)
 	{
 		if (col.name == "MirrorTrigger")
 		{
-			Debug.Log ("MirrorTrigger!");
+			//Debug.Log ("MirrorTrigger!");
 
 			Color imgColor = rearCamImg.color;
-			//Color tempColor = new Color (0,0,0,0);
-			for (float i = 0; i < 190; i+= 0.002f)
-			{
-				rearCamImg.color = new Color(imgColor.r,imgColor.g,imgColor.b,i);
-				Debug.Log ("i: " + i + " imgColor: " + rearCamImg.color);
-			}
 
-			Vortex.GetComponent<VortexSc>().enabled = true;
+			rearCamStartTime = Time.time;
+			colorLerp = true;
+
+			Vortex.SetActive(true);
+		}
+
+		if (col.name == "RetryTrigger")
+		{
+			Debug.Log ("RetryTrigger!");
+			SceneManager.LoadScene ("test");
+
+		}
+		else if (col.name == "QuitTrigger")
+		{
+			Debug.Log ("QuitTrigger!");
 
 		}
 	}
