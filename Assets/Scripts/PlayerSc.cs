@@ -11,6 +11,7 @@ public class PlayerSc : MonoBehaviour {
 	public bool isMoving;
 
 	public Camera mainCam;
+	public Camera feedbackCam;
 	Transform camT;
 	Vector3 startPos;
 	Vector3 centerPos;
@@ -39,6 +40,16 @@ public class PlayerSc : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		if (SceneManager.GetActiveScene().name == "Death")
+		{
+			feedbackCam.GetComponent<CustomFilter> ().enabled = true;
+		}
+		else
+		{
+			feedbackCam.GetComponent<CustomFilter> ().enabled = false;
+
+		}
+
 		camT = mainCam.transform;
 		moveRay = new Ray (camT.position,camT.forward);
 		mainCamLook = mainCam.GetComponent<MouseLook> ();
@@ -156,7 +167,7 @@ public class PlayerSc : MonoBehaviour {
 		if (col.gameObject ==  Vortex)
 		{
 			Debug.Log ("Collide!");
-
+			SceneManager.LoadScene ("Death");
 		}
 	}
 
@@ -183,7 +194,7 @@ public class PlayerSc : MonoBehaviour {
 		else if (col.name == "QuitTrigger")
 		{
 			Debug.Log ("QuitTrigger!");
-
+			Application.Quit();
 		}
 	}
 

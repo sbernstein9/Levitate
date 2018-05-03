@@ -6,7 +6,7 @@ public class VortexSc : MonoBehaviour {
 
 	public static VortexSc instance;
 
-	public int vortexSpeed = 1;
+	public float vortexSpeed = 0.8f;
 	// Use this for initialization
 	void Start () {
 

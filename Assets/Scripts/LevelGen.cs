@@ -88,7 +88,7 @@ public class LevelGen : MonoBehaviour {
 		}
 
 
-		for (int z = 0; z < 10; z++)
+		for (int z = 0; z < 10 + levelsGenerated; z++)
 		{
 			GameObject newObstacle;
 			newObstacle = Instantiate (worldObjects [2], new Vector3 (Random.Range (-worldWidth, worldWidth), Random.Range (-worldHeight, worldHeight), genStart.z + Random.Range (0, worldDepth)), Random.rotation);
